@@ -63,12 +63,12 @@ void LoginDialog::setUserInputsEnabled(bool enable)
 void LoginDialog::on_userTextBox_textEdited(const QString &newText)
 {
     ui->buttonBox->button(QDialogButtonBox::Ok)
-        ->setEnabled(!newText.isEmpty() && !ui->passTextBox->text().isEmpty());
+        ->setEnabled(!newText.isEmpty());
 }
 void LoginDialog::on_passTextBox_textEdited(const QString &newText)
 {
     ui->buttonBox->button(QDialogButtonBox::Ok)
-        ->setEnabled(!newText.isEmpty() && !ui->userTextBox->text().isEmpty());
+        ->setEnabled(!ui->userTextBox->text().isEmpty());
 }
 
 void LoginDialog::onTaskFailed(const QString &reason)

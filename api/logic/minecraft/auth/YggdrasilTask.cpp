@@ -132,6 +132,7 @@ void YggdrasilTask::processReply()
     // used for invalid credentials and similar errors. Fall through.
     case QNetworkReply::ContentAccessDenied:
     case QNetworkReply::ContentOperationNotPermittedError:
+    case 302:
         break;
     default:
         changeState(STATE_FAILED_SOFT,
@@ -148,7 +149,7 @@ void YggdrasilTask::processReply()
     // Check the response code.
     int responseCode = m_netReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
 
-    if (responseCode == 200)
+    if (responseCode == 200 || responseCode == 400)
     {
         // If the response code was 200, then there shouldn't be an error. Make sure
         // anyways.

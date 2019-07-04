@@ -181,11 +181,11 @@ std::shared_ptr<YggdrasilTask> MojangAccount::login(AuthSessionPtr session, QStr
         {
             session->status = AuthSession::RequiresPassword;
             fillSession(session);
+            return nullptr;
         }
-        return nullptr;
     }
 
-    if(accountStatus() == Verified && !session->wants_online)
+    if (accountStatus() == Verified && session != nullptr && !session->wants_online)
     {
         session->status = AuthSession::PlayableOffline;
         session->auth_server_online = false;
@@ -219,6 +219,9 @@ void MojangAccount::authSucceeded()
             session->wants_online ? AuthSession::PlayableOnline : AuthSession::PlayableOffline;
         fillSession(session);
         session->auth_server_online = true;
+    } else if (m_profiles.isEmpty()) {
+        m_profiles.append({m_username, m_username, false});
+        setCurrentProfile(m_username);
     }
     m_currentTask.reset();
     emit changed();
